@@ -6,9 +6,7 @@ class SguiFacade
   ####
 
   def login(user, password)
-  end
-
-  def logout
+    user == "admin" && password == "admin"
   end
 
   ####
