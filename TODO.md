@@ -1,7 +1,7 @@
 # TODO
 
-* Use partials (view templates)
 * Use flash to inform user about login/logout
+* Logging to syslog (using Lumberjack)
 * Test web app vulnerabilities
 
 # References
