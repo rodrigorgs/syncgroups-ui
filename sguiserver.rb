@@ -12,37 +12,17 @@ require 'rack/protection'
 # * see gem: https://github.com/rkh/rack-protection
 
 get '/' do
-  '<a href="groups">Entrar</a>'
+  erb :index
 end
 
 get '/groups' do
-  '<h1>Groups</h1>
-
-  <ul>
-    <li><a href="groups/csi">csi</a></li>
-  </ul>
-  '
+  erb :groups_index
 end
 
 get '/groups/:group' do
-  <<-EOT
-  <h1>Grupo: #{params['group']}</h1>
-
-  <h2>Membros</h2>
-  <form action="#{params['group']}" method="POST">
-    <ul>
-      <li><input name="username[]" type="text" value="fulano" /></li>
-      <li><input name="username[]" type="text" value="sicrano" /></li>
-    </ul>
-    <input type="submit" />
-  </form>
-  <ul>
-
-  EOT
+  erb :groups_edit
 end
 
 post '/groups/:group' do
-  <<-EOT
-  Ok! #{params['username'].inspect}
-  EOT
+  erb :groups_show
 end

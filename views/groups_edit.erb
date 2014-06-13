@@ -1,0 +1,11 @@
+<h1>Grupo: <%= params['group'] %></h1>
+
+<h2>Membros</h2>
+<form action="<%= params['group'] %>" method="POST">
+  <ul>
+    <li><input name="username[]" type="text" value="fulano" /></li>
+    <li><input name="username[]" type="text" value="sicrano" /></li>
+  </ul>
+  <input type="submit" />
+</form>
+<ul>
