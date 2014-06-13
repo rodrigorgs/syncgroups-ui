@@ -6,13 +6,6 @@ require 'sinatra_warden'
 
 require_relative 'lib/sgui.rb'
 
-# TODO: how to secure a Sinatra application?:
-#
-# * http://blog.fil.vasilak.is/blog/2014/02/08/securing-sinatra-micro-framework/
-# * see gem `rack_csrf`.
-# * http://stackoverflow.com/questions/11337630/preventing-session-fixation-in-ruby-sinatra
-# * see gem: https://github.com/rkh/rack-protection
-
 class Application < Sinatra::Base
   register Sinatra::Warden
   set :auth_template_renderer, 'erb'
