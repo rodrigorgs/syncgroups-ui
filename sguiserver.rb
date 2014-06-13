@@ -14,6 +14,8 @@ require_relative 'lib/sgui.rb'
 # * http://stackoverflow.com/questions/11337630/preventing-session-fixation-in-ruby-sinatra
 # * see gem: https://github.com/rkh/rack-protection
 
+enable :sessions
+
 before do
   @facade = SguiFacade.new
 end
