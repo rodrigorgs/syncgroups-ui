@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
-require 'rack/protection'
+require 'rack/csrf'
 
 require_relative 'lib/sgui.rb'
 
-#use Rack::Protection
+use Rack::Session::Cookie, :secret => 'Should replace this by a file!'
+use Rack::Csrf, :raise => true
 
 # TODO: how to secure a Sinatra application?:
 #

@@ -2,6 +2,7 @@
 
 <h2>Membros</h2>
 <form action="<%= params['group'] %>" method="POST">
+  <%= Rack::Csrf.csrf_tag(env) %>
   <ul>
     <% @members.each do |member| %>
     <li><input name="username[]" type="text" value="<%= member %>" /></li>

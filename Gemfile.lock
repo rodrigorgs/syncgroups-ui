@@ -4,6 +4,8 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
+    rack_csrf (2.4.0)
+      rack (>= 0.9)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -15,4 +17,5 @@ PLATFORMS
 
 DEPENDENCIES
   rack-protection
+  rack_csrf
   sinatra
