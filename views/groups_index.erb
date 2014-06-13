@@ -1,5 +1,7 @@
 <h1>Groups</h1>
 
 <ul>
-  <li><a href="groups/csi">csi</a></li>
+  <% @groups.each do |group| %>
+  <li><a href="groups/<%= group %>"><%= group %></a></li>
+  <% end %>
 </ul>

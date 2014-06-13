@@ -3,8 +3,9 @@
 <h2>Membros</h2>
 <form action="<%= params['group'] %>" method="POST">
   <ul>
-    <li><input name="username[]" type="text" value="fulano" /></li>
-    <li><input name="username[]" type="text" value="sicrano" /></li>
+    <% @members.each do |member| %>
+    <li><input name="username[]" type="text" value="<%= member %>" /></li>
+    <% end %>
   </ul>
   <input type="submit" />
 </form>

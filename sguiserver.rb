@@ -2,6 +2,9 @@
 
 require 'sinatra'
 require 'rack/protection'
+
+require_relative 'lib/sgui.rb'
+
 #use Rack::Protection
 
 # TODO: how to secure a Sinatra application?:
@@ -11,18 +14,33 @@ require 'rack/protection'
 # * http://stackoverflow.com/questions/11337630/preventing-session-fixation-in-ruby-sinatra
 # * see gem: https://github.com/rkh/rack-protection
 
+before do
+  @facade = SguiFacade.new
+end
+
 get '/' do
   erb :index
 end
 
 get '/groups' do
+  @groups = @facade.list_groups
   erb :groups_index
 end
 
-get '/groups/:group' do
-  erb :groups_edit
+get '/groups/:group' do |group|
+  if @facade.can_access_group(session[:user], group)
+    @members = @facade.list_group_members(group)
+    erb :groups_edit
+  else
+    erb :error
+  end
 end
 
-post '/groups/:group' do
-  erb :groups_show
+post '/groups/:group' do |group|
+  if @facade.can_access_group(session[:user], group)
+    @facade.update_group(group, params['username'])
+    erb :groups_show
+  else
+    erb :error
+  end
 end
