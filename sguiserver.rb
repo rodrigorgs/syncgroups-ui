@@ -27,20 +27,18 @@ get '/groups' do
   erb :groups_index
 end
 
-get '/groups/:group' do |group|
-  if @facade.can_access_group(session[:user], group)
-    @members = @facade.list_group_members(group)
-    erb :groups_edit
-  else
-    erb :error
+before '/groups/:group' do |group|
+  if !@facade.can_access_group(session[:user], group)
+    halt 401, erb(:error)
   end
 end
 
+get '/groups/:group' do |group|
+  @members = @facade.list_group_members(group)
+  erb :groups_edit
+end
+
 post '/groups/:group' do |group|
-  if @facade.can_access_group(session[:user], group)
-    @facade.update_group(group, params['username'])
-    erb :groups_show
-  else
-    erb :error
-  end
+  @facade.update_group(group, params['username'])
+  erb :groups_show
 end
