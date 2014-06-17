@@ -3,6 +3,7 @@
 * Implement LDAP backend with net/ldap
   * Autocomplete people's names
 * Improve layout (logout link, navigation, aesthetics)
+* Page to show a user and allow manager to add/remove the user to groups
 * Use flash to inform user about login/logout
 * Logging to syslog (using Lumberjack)
 * Test web app vulnerabilities
