@@ -16,16 +16,29 @@ class SguiFacade
   ####
 
   def login(user, password)
-    user == "admin" && password == "admin"
+    password == "123"
   end
 
   ####
 
   def can_access_group(user, group)
     true
+    # list_groups_managed_by_user(user).include?(group)
   end
 
   ####
+
+  def list_groups_managed_by_user(user)
+    # TODO: should look for "-admin" groups
+    groups = []
+    filter = Net::LDAP::Filter.eq("cn", user)
+    results = @ldap.search(filter: filter, attributes: ['memberOf'])
+    if results && results.size == 1
+      ldapuser = results[0]
+      groups = ldapuser.memberOf.map { |dn| $1 if dn =~ /^.*?=(.*?),/ }
+    end
+    groups
+  end
 
   def list_groups
     groups = []

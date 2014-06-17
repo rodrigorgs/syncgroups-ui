@@ -36,6 +36,10 @@ class Application < Sinatra::Base
     !session['username'].nil?
   end
 
+  def logged_user
+    session['username']
+  end
+
   #############
 
   before do
@@ -48,12 +52,12 @@ class Application < Sinatra::Base
   end
 
   get '/groups' do
-    @groups = @facade.list_groups
+    @groups = @facade.list_groups_managed_by_user(logged_user)
     erb :groups_index
   end
 
   before '/groups/:group' do |group|
-    if !@facade.can_access_group(session[:user], group)
+    if !@facade.can_access_group(logged_user, group)
       halt 401, erb(:error)
     end
   end
