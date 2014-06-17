@@ -1,5 +1,8 @@
 # TODO
 
+* Implement LDAP backend with net/ldap
+  * Autocomplete people's names
+* Improve layout (logout link, navigation, aesthetics)
 * Use flash to inform user about login/logout
 * Logging to syslog (using Lumberjack)
 * Test web app vulnerabilities

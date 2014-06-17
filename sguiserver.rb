@@ -16,7 +16,7 @@ class Application < Sinatra::Base
 
   def initialize(app = nil)
     super(app)
-    @facade = SguiFacade.new
+    @facade = SguiFacade.new('config/sgui.yml')
   end
 
   def authenticate

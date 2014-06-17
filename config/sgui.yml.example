@@ -1,0 +1,6 @@
+ldap:
+  host: ldap.example.com
+  port: 389
+  basedn: 'dc=department,dc=example,dc=com'
+  binddn: 'cn=myself,dc=department,dc=example,dc=com'
+  password: 'pa$$w0rd'
