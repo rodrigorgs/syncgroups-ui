@@ -28,14 +28,20 @@ class SguiFacade
   ####
 
   def list_groups
-    %w(csi cri sgaf)
+    groups = []
+    filter = Net::LDAP::Filter.eq("objectclass", "group")
+    results = @ldap.search(filter: filter, attributes: ['dn'])
+    if results && results.size > 0
+      groups = results.map { |obj| $1 if obj.dn =~ /^.*?=(.*?),/ }
+    end
+    groups
   end
 
   def list_group_members(group)
     members = []
 
     filter = Net::LDAP::Filter.eq("CN", group)
-    results = @ldap.search(filter: filter)
+    results = @ldap.search(filter: filter, attributes: ['member'])
     if results.size == 1
       ldapgroup = results[0]
       members = ldapgroup.member.map { |dn| $1 if dn =~ /^.*?=(.*?),/ }
