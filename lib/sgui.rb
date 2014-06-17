@@ -28,6 +28,18 @@ class SguiFacade
 
   ####
 
+  def autocomplete_name(prefix)
+    return [] if prefix.length < 3
+
+    names = []
+    filter = Net::LDAP::Filter.eq("displayName", "#{prefix}*")
+    results = @ldap.search(filter: filter, attributes: ['displayName'])
+    if results && results.size > 0
+      names = results.map { |obj| obj.displayName }
+    end
+    names
+  end
+
   def list_groups_managed_by_user(user)
     # TODO: should look for "-admin" groups
     groups = []
