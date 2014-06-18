@@ -16,7 +16,14 @@ class Application < Sinatra::Base
 
   def initialize(app = nil)
     super(app)
-    @facade = SguiFacade.new('config/sgui.yml')
+    if ARGV.length > 0 && ARGV[0] == 'development'
+      require_relative 'lib/sgui_fake.rb'
+      @facade = SguiFakeFacade.new(nil)
+      puts "Running SGUI in development mode"
+    else
+      @facade = SguiFacade.new('config/sgui.yml')
+      puts "Running SGUI in production mode"
+    end
   end
 
   def authenticate
