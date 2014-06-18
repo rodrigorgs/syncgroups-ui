@@ -2,7 +2,9 @@
 
 Syncgroups-UI (SGUI) is a minimal web interface to manage [LDAP](http://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) groups.
 
-Usually sysadmins are responsible for managing groups of users, because they are often the only ones with access and expertise to make changes to LDAP databases. However, sysadmins may not be informed right away when a person should enter or leave a group, so LDAP groups become outdated. With SGUI, the management of a LDAP group can be delegated to a subset of the members of the group, who are aware of any changes in the their team. In other words, SGUI decentralize group management by empowering users and lowering the technical barriers.
+Usually sysadmins are responsible for managing groups of users, because they are often the only ones with access and expertise to make changes to LDAP databases. However, sysadmins may not be informed right away when a person should enter or leave a group, so LDAP groups become outdated.
+
+With SGUI, the management of a LDAP group can be delegated to a subset of the members of the group, who are aware of any changes in the their team. In other words, SGUI decentralize group management by empowering users and lowering the technical barriers.
 
 ## How it works
 
@@ -10,7 +12,7 @@ SGUI looks for groups in a LDAP server and allows authorized users to add or rem
 
 SGUI does not *create* LDAP groups. It is expected that groups are still created by sysadmins using a LDAP client. Once groups are created, however, they can be managed by regular users using SGUI.
 
-SGUI is currently under development, so it may not be usable right now. See the `[TODO.md](TODO.md)` for planned features.
+SGUI is currently under development, so it may not be usable right now. See the [`TODO.md`](TODO.md) for planned features.
 
 ## Running
 
