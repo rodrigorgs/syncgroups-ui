@@ -75,7 +75,7 @@ class SguiFacade
     members = []
 
     filter = Net::LDAP::Filter.eq(@config['group_rdn'], group)
-    results = @ldap.search(filter: filter, attributes: ['member'])
+    results = @ldap.search(filter: filter, attributes: [@config['group_members_attr']])
     if results.size == 1
       ldapgroup = results[0]
       members = ldapgroup.member.map { |dn| $1 if dn =~ /^.*?=(.*?),/ }
