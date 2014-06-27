@@ -41,13 +41,6 @@ class SguiFacade
     names
   end
 
-  def dn_from_user(user)
-    filter = filter = Net::LDAP::Filter.eq(@config['user_rdn'], user)
-    results = @ldap.search(filter: filter, attributes: [@config['user_rdn']])
-
-    results.size == 1 ? results[0].dn : nil
-  end
-
   def list_groups_managed_by_user(user)
     # TODO: should look for "-admin" groups
     userdn = dn_from_user(user)
@@ -84,6 +77,22 @@ class SguiFacade
     members
   end
 
+  def update_group(group, members)
+    user_dns = dns_from_users(members)
+    group_dn = dn_from_group(group)
+    @ldap.replace_attribute(group_dn, @config['group_members_attr'], user_dns)
+  end
+
+  #################################################
+  private
+
+  def dn_from_user(user)
+    filter = filter = Net::LDAP::Filter.eq(@config['user_rdn'], user)
+    results = @ldap.search(filter: filter, attributes: [@config['user_rdn']])
+
+    results.size == 1 ? results[0].dn : nil
+  end
+
   def dns_from_users(users)
     filters = users.map { |user| Net::LDAP::Filter.eq(@config['user_rdn'], user) }
     filter = Net::LDAP::Filter.construct("(|#{filters.join('')})")
@@ -98,12 +107,4 @@ class SguiFacade
 
     results.size == 1 ? results[0].dn : nil
   end
-
-  def update_group(group, members)
-    user_dns = dns_from_users(members)
-    group_dn = dn_from_group(group)
-    @ldap.replace_attribute(group_dn, @config['group_members_attr'], user_dns)
-  end
-
 end
-
