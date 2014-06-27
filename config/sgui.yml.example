@@ -8,6 +8,7 @@ ldap:
   user_rdn: 'cn'
   group_members_attr: 'member'
   group_objectclass: 'group'
+  fullname_attr: 'displayName'
 web:
   port: 4567
   bind: 0.0.0.0

@@ -32,10 +32,11 @@ class SguiFacade
     return [] if prefix.length < 3
 
     names = []
-    filter = Net::LDAP::Filter.eq("displayName", "#{prefix}*")
-    results = @ldap.search(filter: filter, attributes: ['displayName'])
+    filter = Net::LDAP::Filter.eq(@config['fullname_attr'], "#{prefix}*")
+    results = @ldap.search(filter: filter, attributes: [@config['fullname_attr']])
+    p results
     if results && results.size > 0
-      names = results.map { |obj| obj.displayName }
+      names = results.map { |obj| obj[@config['fullname_attr']][0] }
     end
     names
   end
