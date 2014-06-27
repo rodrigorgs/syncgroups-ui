@@ -40,16 +40,24 @@ class SguiFacade
     names
   end
 
+  def dn_from_user(user)
+    filter = filter = Net::LDAP::Filter.eq(@config['user_rdn'], user)
+    results = @ldap.search(filter: filter, attributes: [@config['user_rdn']])
+
+    results.size == 1 ? results[0].dn : nil
+  end
+
   def list_groups_managed_by_user(user)
     # TODO: should look for "-admin" groups
-    groups = []
-    filter = Net::LDAP::Filter.eq(@config['user_rdn'], user)
-    results = @ldap.search(filter: filter, attributes: ['memberOf'])
-    if results && results.size == 1
-      ldapuser = results[0]
-      groups = ldapuser.memberOf.map { |dn| $1 if dn =~ /^.*?=(.*?),/ }
-    end
-    groups
+    userdn = dn_from_user(user)
+    return [] if userdn.nil?
+
+    filter_objclass = Net::LDAP::Filter.eq("objectclass", @config['group_objectclass'])
+    filter_user = Net::LDAP::Filter.eq(@config['group_members_attr'], userdn)
+    filter = Net::LDAP::Filter.join(filter_objclass, filter_user)
+    results = @ldap.search(filter: filter, attributes: [@config['group_rdn']])
+
+    results.map { |obj| obj[@config['group_rdn']][0] }
   end
 
   def list_groups
