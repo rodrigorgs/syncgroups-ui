@@ -18,17 +18,21 @@ SGUI is currently under development, so it may not be usable right now. See the 
 
 SGUI is tested with Ruby 2.0.
 
-First, install the dependencies using [Bundler](http://bundler.io/):
+First, install Ruby dependencies using [Bundler](http://bundler.io/):
 
     bundle install
 
-Then, create the file `config/sgui.yml` (based on `sgui.yml.example`) with your LDAP configuration.
+Then, install Javascript dependencies using [Bower](http://bower.io/):
 
-After that, run the web application:
+    bower install
+
+After that, create the file `config/sgui.yml` (based on `sgui.yml.example`) with your LDAP configuration.
+
+Finally, run the web application:
 
     ruby sguiserver.rb
 
-Finally, open the web interface at <http://localhost:4567/>.
+The web interface is accessible at <http://localhost:4567/>.
 
 ## Development mode
 
