@@ -83,6 +83,20 @@ class SguiFacade
     @ldap.replace_attribute(group_dn, @config['group_members_attr'], user_dns)
   end
 
+  def add_member(group, member)
+    user_dn = dn_from_user(member)
+    group_dn = dn_from_group(group)
+    @ldap.add_attribute(group_dn, @config['group_members_attr'], user_dn)
+  end
+
+  def remove_member(group, member)
+    return if member.nil? || member == [] || member == ""
+
+    user_dn = dn_from_user(member)
+    group_dn = dn_from_group(group)
+    @ldap.modify(dn: group_dn, operations: [[:delete, @config['group_members_attr'], user_dn]])
+  end
+
   #################################################
   private
 
