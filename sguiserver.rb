@@ -3,25 +3,32 @@
 require 'sinatra/base'
 require 'rack/csrf'
 require 'sinatra_warden'
+require 'yaml'
 
 require_relative 'lib/sgui.rb'
+
+YAML_FILENAME = 'config/sgui.yml'
+CONFIG = YAML.load_file(YAML_FILENAME)['web']
 
 class Application < Sinatra::Base
   register Sinatra::Warden
   set :auth_template_renderer, 'erb'
   set :auth_success_path, '/groups'
   set :auth_failure_path, '/login'
-  
+  set :port, CONFIG['port']
+  set :bind, CONFIG['bind']
+
   use Rack::Csrf, :raise => true
 
   def initialize(app = nil)
     super(app)
+
     if ARGV.length > 0 && ARGV[0] == 'development'
       require_relative 'lib/sgui_fake.rb'
       @facade = SguiFakeFacade.new(nil)
       puts "Running SGUI in development mode"
     else
-      @facade = SguiFacade.new('config/sgui.yml')
+      @facade = SguiFacade.new(YAML_FILENAME)
       puts "Running SGUI in production mode"
     end
   end

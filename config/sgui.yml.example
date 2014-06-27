@@ -4,3 +4,6 @@ ldap:
   basedn: 'dc=department,dc=example,dc=com'
   binddn: 'cn=myself,dc=department,dc=example,dc=com'
   password: 'pa$$w0rd'
+web:
+  port: 4567
+  bind: 0.0.0.0
