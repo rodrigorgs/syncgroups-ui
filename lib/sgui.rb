@@ -84,7 +84,25 @@ class SguiFacade
     members
   end
 
+  def dns_from_users(users)
+    filters = users.map { |user| Net::LDAP::Filter.eq(@config['user_rdn'], user) }
+    filter = Net::LDAP::Filter.construct("(|#{filters.join('')})")
+    results = @ldap.search(filter: filter, attributes: ['db', @config['user_rdn']])
+    dns = results.map { |obj| obj.dn }
+    dns
+  end
+
+  def dn_from_group(group)
+    filter = filter = Net::LDAP::Filter.eq(@config['group_rdn'], group)
+    results = @ldap.search(filter: filter, attributes: [@config['group_rdn']])
+
+    results.size == 1 ? results[0].dn : nil
+  end
+
   def update_group(group, members)
+    user_dns = dns_from_users(members)
+    group_dn = dn_from_group(group)
+    @ldap.replace_attribute(group_dn, @config['group_members_attr'], user_dns)
   end
 
 end

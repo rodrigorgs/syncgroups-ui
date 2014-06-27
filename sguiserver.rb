@@ -82,7 +82,8 @@ class Application < Sinatra::Base
   end
 
   post '/groups/:group' do |group|
-    @facade.update_group(group, params['username'])
+    users = params['username'].select { |x| !x.nil? && x != '' }
+    @facade.update_group(group, users)
     erb :groups_show
   end
 
