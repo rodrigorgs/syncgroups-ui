@@ -4,8 +4,10 @@
 * Implement login using LDAP
 * Improve layout (logout link, navigation, aesthetics)
 * Page to show a user and allow manager to add/remove the user to groups
+  * Page to search user
 * Use flash to inform user about login/logout
 * Logging to syslog (using Lumberjack)
+* Admin should see all groups
 * Create tests for main web application attacks, e.g.:
   * Cross Site Request Forgery
   * Cross Site Scripting
