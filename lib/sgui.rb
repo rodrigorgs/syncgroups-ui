@@ -4,12 +4,12 @@ require 'yaml'
 class SguiFacade
 
   def initialize(yaml_filename)
-    config = YAML.load_file(yaml_filename)['ldap']
+    @config = YAML.load_file(yaml_filename)['ldap']
     @ldap = Net::LDAP.new
-    @ldap.host = config['host']
-    @ldap.port = config['port']
-    @ldap.base = config['basedn']
-    @ldap.auth config['binddn'], config['password']
+    @ldap.host = @config['host']
+    @ldap.port = @config['port']
+    @ldap.base = @config['basedn']
+    @ldap.auth @config['binddn'], @config['password']
     @ldap.bind or raise RuntimeError, 'Could not connect to LDAP server.'
   end
 
@@ -43,7 +43,7 @@ class SguiFacade
   def list_groups_managed_by_user(user)
     # TODO: should look for "-admin" groups
     groups = []
-    filter = Net::LDAP::Filter.eq("cn", user)
+    filter = Net::LDAP::Filter.eq(@config['user_rdn'], user)
     results = @ldap.search(filter: filter, attributes: ['memberOf'])
     if results && results.size == 1
       ldapuser = results[0]
@@ -54,7 +54,7 @@ class SguiFacade
 
   def list_groups
     groups = []
-    filter = Net::LDAP::Filter.eq("objectclass", "group")
+    filter = Net::LDAP::Filter.eq("objectclass", @config['group_objectclass'])
     results = @ldap.search(filter: filter, attributes: ['dn'])
     if results && results.size > 0
       groups = results.map { |obj| $1 if obj.dn =~ /^.*?=(.*?),/ }
@@ -65,7 +65,7 @@ class SguiFacade
   def list_group_members(group)
     members = []
 
-    filter = Net::LDAP::Filter.eq("CN", group)
+    filter = Net::LDAP::Filter.eq(@config['group_rdn'], group)
     results = @ldap.search(filter: filter, attributes: ['member'])
     if results.size == 1
       ldapgroup = results[0]

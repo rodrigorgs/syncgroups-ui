@@ -4,6 +4,10 @@ ldap:
   basedn: 'dc=department,dc=example,dc=com'
   binddn: 'cn=myself,dc=department,dc=example,dc=com'
   password: 'pa$$w0rd'
+  group_rdn: 'cn'
+  user_rdn: 'cn'
+  group_members_attr: 'member'
+  group_objectclass: 'group'
 web:
   port: 4567
   bind: 0.0.0.0
