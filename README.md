@@ -22,10 +22,6 @@ First, install Ruby dependencies using [Bundler](http://bundler.io/):
 
     bundle install
 
-Then, install Javascript dependencies using [Bower](http://bower.io/):
-
-    bower install
-
 After that, create the file `config/sgui.yml` (based on `sgui.yml.example`) with your LDAP configuration.
 
 Finally, run the web application:
