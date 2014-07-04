@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'rack/csrf'
 require 'sinatra_warden'
 require 'yaml'
+require 'json'
 
 require_relative 'lib/sgui.rb'
 
@@ -85,6 +86,14 @@ class Application < Sinatra::Base
     users = params['username'].select { |x| !x.nil? && x != '' }
     @facade.update_group(group, users)
     erb :groups_show
+  end
+
+  get '/users' do
+    content_type 'application/json;charset=utf-8'
+    query = params['q']
+    users = @facade.autocomplete_name(query)
+    map = users.map { |u| { value: u.force_encoding('utf-8') } }
+    JSON.generate(map)
   end
 
   run! if app_file == $0

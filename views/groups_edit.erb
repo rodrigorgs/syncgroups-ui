@@ -1,6 +1,12 @@
 <h1>Grupo: <%= params['group'] %></h1>
 
 <h2>Membros</h2>
+
+<div id="user-to-add">
+  <input type="text" class="typeahead" placeholder="Usuario para adicionar" />
+  <button>+</button>
+</div>
+
 <form action="<%= params['group'] %>" method="POST">
   <%= Rack::Csrf.csrf_tag(env) %>
   <ul>
@@ -11,3 +17,25 @@
   <input type="submit" />
 </form>
 <ul>
+
+<script type="text/javascript">
+  var users = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: '/users?q=%QUERY'
+  });
+
+  users.initialize();
+
+  $('#user-to-add .typeahead').typeahead(
+    {
+      hint: true,
+      highlight: true,
+      minLength: 3
+    },
+    {
+      name: 'users',
+      displayKey: 'value',
+      source: users.ttAdapter()
+  });
+</script>
