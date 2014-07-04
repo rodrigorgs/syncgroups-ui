@@ -35,7 +35,11 @@
     },
     {
       name: 'users',
-      displayKey: 'value',
-      source: users.ttAdapter()
+      displayKey: 'username',
+      source: users.ttAdapter(),
+      templates: {
+        empty: '',
+        suggestion: Handlebars.compile('<strong>{{username}}</strong> - {{fullname}}')
+      }
   });
 </script>

@@ -3,3 +3,4 @@ config/*.yml
 db/
 public/typeahead.js/
 public/jquery/
+public/handlebars.js/

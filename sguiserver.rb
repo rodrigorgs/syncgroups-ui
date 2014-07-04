@@ -91,9 +91,13 @@ class Application < Sinatra::Base
   get '/users' do
     content_type 'application/json;charset=utf-8'
     query = params['q']
-    users = @facade.autocomplete_name(query)
-    map = users.map { |u| { value: u.force_encoding('utf-8') } }
-    JSON.generate(map)
+    users = @facade.autocomplete_name(query).map do |u|
+      {
+        username: u[:username].force_encoding('utf-8'),
+        fullname: u[:fullname].force_encoding('utf-8')
+      }
+    end
+    users.to_json
   end
 
   run! if app_file == $0

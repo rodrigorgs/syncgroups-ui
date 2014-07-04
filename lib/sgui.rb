@@ -33,10 +33,15 @@ class SguiFacade
 
     names = []
     filter = Net::LDAP::Filter.eq(@config['fullname_attr'], "#{prefix}*")
-    results = @ldap.search(filter: filter, attributes: [@config['fullname_attr']])
+    results = @ldap.search(filter: filter, attributes: [@config['fullname_attr'], @config['user_rdn']])
     p results
     if results && results.size > 0
-      names = results.map { |obj| obj[@config['fullname_attr']][0] }
+      names = results.map do |obj|
+        {
+          username: obj[@config['user_rdn']][0],
+          fullname: obj[@config['fullname_attr']][0]
+        }
+      end
     end
     names
   end

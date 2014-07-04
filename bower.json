@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "typeahead.js": "~0.10.2"
+    "typeahead.js": "~0.10.2",
+    "handlebars.js": "~1.2.0"
   }
 }
