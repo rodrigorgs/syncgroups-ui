@@ -45,8 +45,10 @@ class SguiFakeFacade
 
   def autocomplete_name(prefix)
     return [] if prefix.length < 3
+
     @db.transaction do
-      @db[:users].grep /^#{prefix}/
+      users = @db[:users].map { |u| { username: u, fullname: u.gsub('-', ' ').capitalize } }
+      users.select { |user| user[:username].include?(prefix) || user[:fullname].include?(prefix) }
     end
   end
 
