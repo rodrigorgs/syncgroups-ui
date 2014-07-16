@@ -2,21 +2,21 @@
 
 <h2>Membros</h2>
 
-<div id="user-to-add">
-  <input type="text" class="typeahead" placeholder="Usuario para adicionar" />
-  <button>+</button>
-</div>
-
 <form action="<%= params['group'] %>" method="POST">
-  <%= Rack::Csrf.csrf_tag(env) %>
-  <ul>
-    <% @members.each do |member| %>
-    <li><input name="username[]" type="text" value="<%= member %>" /></li>
-    <% end %>
-  </ul>
-  <input type="submit" />
+  <%= Rack::Csrf.csrf_tag(env) %>	
+  <div id="user-to-add">
+    <input name="username" type="text" class="typeahead" placeholder="Usuario para adicionar"/>
+    <input type="submit" value="+"/>
+  </div>
 </form>
+
+
 <ul>
+	<% @members.each do |member| %>
+	<li><%= member %></li>
+	<% end %>
+</ul>
+
 
 <script type="text/javascript">
   var users = new Bloodhound({

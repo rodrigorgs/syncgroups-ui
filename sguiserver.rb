@@ -83,9 +83,10 @@ class Application < Sinatra::Base
   end
 
   post '/groups/:group' do |group|
-    users = params['username'].select { |x| !x.nil? && x != '' }
-    @facade.update_group(group, users)
-    erb :groups_show
+    username = params['username']
+    @facade.add_member(group, username)
+#    erb :groups_edit
+    redirect "/groups/#{group}"
   end
 
   get '/users' do

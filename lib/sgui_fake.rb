@@ -77,5 +77,12 @@ class SguiFakeFacade
     end
   end
 
+  def add_member(group, member)
+   @db.transaction do
+      @db[:assignment][group] << member
+      @db.commit
+    end
+  end
+
 end
 
